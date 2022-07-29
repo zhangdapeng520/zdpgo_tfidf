@@ -12,15 +12,15 @@ import (
 
 // TFIDF tfidf model
 type TFIDF struct {
-	docIndex  map[string]int         // train document index in TermFreqs
-	termFreqs []map[string]int       // term frequency for each train document
-	termDocs  map[string]int         // documents number for each term in train data
-	n         int                    // number of documents in train data
-	stopWords map[string]interface{} // words to be filtered
-	tokenizer seg.Tokenizer          // tokenizer, space is used as default
+	docIndex  map[string]int         // 训练文档索引在术语频次
+	termFreqs []map[string]int       // 每个train文件的术语频率
+	termDocs  map[string]int         // train数据中每个术语的文件编号
+	n         int                    // train数据中的文件数量
+	stopWords map[string]interface{} // 过滤词语
+	tokenizer seg.Tokenizer          // tokenizer, 使用空格作为默认值
 }
 
-// New new model with default
+// New 使用默认参数新建模型
 func New() *TFIDF {
 	return &TFIDF{
 		docIndex:  make(map[string]int),
@@ -31,7 +31,7 @@ func New() *TFIDF {
 	}
 }
 
-// NewTokenizer new with specified tokenizer
+// NewTokenizer 使用指定序列化器新建模型
 func NewTokenizer(tokenizer seg.Tokenizer) *TFIDF {
 	return &TFIDF{
 		docIndex:  make(map[string]int),
@@ -42,6 +42,7 @@ func NewTokenizer(tokenizer seg.Tokenizer) *TFIDF {
 	}
 }
 
+// initStopWords 初始化停用词
 func (f *TFIDF) initStopWords() {
 	if f.stopWords == nil {
 		f.stopWords = make(map[string]interface{})
@@ -57,7 +58,7 @@ func (f *TFIDF) initStopWords() {
 	}
 }
 
-// AddStopWords add stop words to be filtered
+// AddStopWords 添加要过滤的停用词
 func (f *TFIDF) AddStopWords(words ...string) {
 	if f.stopWords == nil {
 		f.stopWords = make(map[string]interface{})
@@ -68,7 +69,7 @@ func (f *TFIDF) AddStopWords(words ...string) {
 	}
 }
 
-// AddStopWordsFile add stop words file to be filtered, with one word a line
+// AddStopWordsFile 添加要过滤的停用词文件，一行一个停用词
 func (f *TFIDF) AddStopWordsFile(file string) (err error) {
 	lines, err := util.ReadLines(file)
 	if err != nil {
@@ -79,7 +80,7 @@ func (f *TFIDF) AddStopWordsFile(file string) (err error) {
 	return
 }
 
-// AddDocs add train documents
+// AddDocs 添加要train训练的文档
 func (f *TFIDF) AddDocs(docs ...string) {
 	for _, doc := range docs {
 		h := hash(doc)
@@ -103,7 +104,7 @@ func (f *TFIDF) AddDocs(docs ...string) {
 	}
 }
 
-// Cal calculate tf-idf weight for specified document
+// Cal 计算指定文档的 tf-idf 权重
 func (f *TFIDF) Cal(doc string) (weight map[string]float64) {
 	weight = make(map[string]float64)
 

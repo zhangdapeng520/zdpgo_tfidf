@@ -13,10 +13,6 @@ func NewJieba() *JiebaTokenizer {
 }
 
 func (j *JiebaTokenizer) Seg(text string) []string {
-	// x := gojieba.NewJieba()
-	// defer x.Free()
-	// fmt.Println(x.ExtractWithWeight(text, 5))
-	// return x.Cut(text, true)
 	return j.x.Cut(text, true)
 
 }

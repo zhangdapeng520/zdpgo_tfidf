@@ -4,6 +4,7 @@ import (
 	"math"
 )
 
+// Cosine 实现余弦相似度算法
 func Cosine(a, b map[string]float64) (sim float64) {
 	vec1, vec2 := vector(a, b)
 
